@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Pg-Trajectory Documentation</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/heroic-features.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body data-spy="scroll" data-target="#myScrollspy" data-offset="20">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top navbar-custom" role="navigation">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">PG-Trajectory Docs</a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar-left">
+                    <li>
+                        <a href="index.html">PROJECT</a>
+                    </li>
+                </ul>
+                 <ul class="nav navbar-nav navbar-right">
+                  <li>
+                        <a href="http://dmlab.cs.gsu.edu">DMLAB</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Page Content -->
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-3">
+                <p class="lead">Documentation</p>
+                    <div class="col-md-3" id="myScrollspy">
+                      <ul>
+                            <li><a href="#secQuickStart">Quick Start</a></li>
+                            <li><a href="#secInstallation">Installation</a></li>                     
+                            <li><a href="#secFunctions">Functions</a></li>   
+                      </ul>
+                      </div>
+            </div>
+
+
+            <div class="col-md-9">
+
+            <div class="thumbnail" id="sectionQuickStart">
+                <div class="caption-full">
+                    <h4><a href="#">Quick Start</a>
+                </div>
+                    <p>
+                    <ul>
+                        <li>
+                            <b>Trajectory Data Type</b><br>
+                            Trajectory is a custom data type of PostgreSQL and can be used to store time geometry pairs. There is a constructor to build trajectory object from time geometry pairs.
+                        </li>
+                        <li>
+                            <b>Creating table with trajectory</b><br>
+                            <pre>CREATE TABLE taxi_ride (id INTEGER PRIMARY KEY, from TEXT, to TEXT, traj Trajectory);
+                            </pre>
+                        </li>
+                        <li>
+                            <b>Data Insertion</b><br>
+                            <pre>Insert INTO taxi_ride (id, from, to, traj) VALUES (1, "LA", "NYC", 
+                            _trajectory(ARRAY[ROW(POINT(1,2))::tg_pair, 
+                            ROW(POINT(3,6))::tg_pair, ROW(POINT(6,8))::tg_pair]));
+                            </pre>
+                            Easy way to insert trajectory object is to use the constructor.
+                        </li>
+                        <li>
+                            <b>Example Query</b><br>
+                            Lets try a query:
+                            <pre>SELECT COUNT(*) FROM taxi_ride WHERE <br>from = 'Decatur' AND to = 'Lenox' AND traj.start_time > CURRENT_TIMESTAMP - <br>INTERVAL '1 day' AND traj.end_time < CURRENT_TIMESTAMP;
+                            </pre>
+                            See paper for more query example
+                        </li>
+
+                    </ul>
+                    </p>
+            </div>
+            <div class="thumbnail" id="secInstallation">
+                <div class="caption-full">
+                    <h4><a href="#">Installation</a>
+                </div>
+                    <p>
+                    Pg-Trajectory have two requirements, PostgreSQL and PostGIS. Before continue make sure you have installed these requirements.Installation of the extension is as easy as executing bunch of SQL files.
+                    </p>
+            </div>
+
+            <div class="thumbnail" id="secFunctions">
+                <div class="caption-full">
+                    <h4><a href="#">Functions</a>
+                </div>
+                    <div class = "table-responsive">
+                       <table class = "table">
+                          
+                          <caption>List of Functions</caption>
+                          
+                          <thead>
+                             <tr>
+                                <th>Function</th>
+                                <th>Type</th>
+                                <th>Signature</th>
+                                <th>Return</th>
+                                <th>Explanation</th>
+                             </tr>
+                          </thead>
+                          
+                          <tbody>
+                             <tr>
+                                <td>_trajectory</td>
+                                <td>Both</td>
+                                <td>TG_PAIR[]</td>
+                                <td>Trajectory</td>
+                                <td>Trajectory object constructor</td>
+                             </tr>
+
+                             <tr>
+                                <td>tg_start_time</td>
+                                <td>Both</td>
+                                <td>TG_PAIR[]</td>
+                                <td>Timestamp</td>
+                                <td>Start time of trajectory</td>
+                             </tr>
+
+
+                             <tr>
+                                <td>tg_end_time</td>
+                                <td>Both</td>
+                                <td>TG_PAIR[]</td>
+                                <td>Timestamp</td>
+                                <td>End time of trajectory</td>
+                             </tr>
+
+
+                             <tr>
+                                <td>tg_mbr</td>
+                                <td>Region</td>
+                                <td>TG_PAIR[]</td>
+                                <td>Trajectory</td>
+                                <td>MBR of all geometries in trajectory</td>
+                             </tr>
+
+
+                             <tr>
+                                <td>tg_type</td>
+                                <td>Both</td>
+                                <td>TG_PAIR[]</td>
+                                <td>Enum</td>
+                                <td>Geometry type of trajectory</td>
+                             </tr>
+                            <tr>
+                                <td>t_duration</td>
+                                <td>Both</td>
+                                <td>Trajectory</td>
+                                <td>Time Interval</td>
+                                <td>End time - start time</td>
+                             </tr>
+
+                            <tr>
+                                <td>t_distance</td>
+                                <td>Point</td>
+                                <td>Trajectory</td>
+                                <td>Trajectory</td>
+                                <td>Distance Travelled</td>
+                             </tr>
+
+                              <tr>
+                                <td>t_area</td>
+                                <td>Region</td>
+                                <td>Trajectory</td>
+                                <td>Trajectory</td>
+                                <td>Trajectory object constructor</td>
+                             </tr>
+
+                              <tr>
+                                <td>t_volume</td>
+                                <td>Region</td>
+                                <td>Trajectory</td>
+                                <td>Trajectory</td>
+                                <td>Trajectory object constructor</td>
+                             </tr>
+
+                              <tr>
+                                <td>t_geom_at</td>
+                                <td>Both</td>
+                                <td>Trajectory, Timestamp</td>
+                                <td>Geometry</td>
+                                <td>Geometry at the given timestamp. Returns null if there is no geometry</td>
+                             </tr>
+
+                              <tr>
+                                <td>tg_zNormalize</td>
+                                <td>Point</td>
+                                <td>TG_PAIR[], Integer, Integer</td>
+                                <td>GEOMETRY[]</td>
+                                <td>normizel value of points</td>
+                             </tr>
+
+                              <tr>
+                                <td>t_euclidean_distance</td>
+                                <td>Both</td>
+                                <td>Trajectory</td>
+                                <td>Real</td>
+                                <td>Euclidean distance. See Paper for detail.</td>
+                             </tr>
+
+                              <tr>
+                                <td>t_overlaps</td>
+                                <td>Both</td>
+                                <td>Trajectory, Trajectory</td>
+                                <td>Real</td>
+                                <td>True if any geometryies of two trajectories overlaps according to POSTGIS</td>
+                             </tr>
+
+                              <tr>
+                                <td>t_union</td>
+                                <td>Region</td>
+                                <td>Trajectory,Trajectory</td>
+                                <td>Trajectory</td>
+                                <td>Union of all geometries. If timestamp is common, union of two geometries is calculated.</td>
+                             </tr>
+
+                              <tr>
+                                <td>t_intersection</td>
+                                <td>Region</td>
+                                <td>Trajectory,Trajectory</td>
+                                <td>Trajectory</td>
+                                <td>Intersection of geometries in common timestamp values.</td>
+                             </tr>
+
+                              <tr>
+                                <td>t_jaccard</td>
+                                <td>Region</td>
+                                <td>Trajectory,Trajectory</td>
+                                <td>Real</td>
+                                <td>Jaccard of two trajectories. See paper for detail.</td>
+                             </tr>
+
+                              <tr>
+                                <td>t_omax</td>
+                                <td>Region</td>
+                                <td>Trajectory,Trajectory</td>
+                                <td>Real</td>
+                                <td>OMAX of two trajectories. See paper for detail.</td>
+                             </tr>
+
+                              <tr>
+                                <td>t_jaccard_star</td>
+                                <td>Region</td>
+                                <td>Trajectory,Trajectory</td>
+                                <td>Real</td>
+                                <td>Jaccard Star of two trajectories. See paper for detail.</td>
+                             </tr>
+
+                              <tr>
+                                <td>t_edit_distance</td>
+                                <td>Both</td>
+                                <td>Trajectory,Trajectory</td>
+                                <td>Real</td>
+                                <td>Edit distance of two trajectories. See paper for detail.</td>
+                             </tr>
+
+                              <tr>
+                                <td>t_m_distance</td>
+                                <td>Both</td>
+                                <td>Trajectory,Trajectory</td>
+                                <td>Real[]</td>
+                                <td>Euclidean distance of point at common timestamps.</td>
+                             </tr>
+
+                              <tr>
+                                <td>t_add_head</td>
+                                <td>Both</td>
+                                <td>TG_PAIR,Trajectory</td>
+                                <td>Trajectory</td>
+                                <td>Return new trajectory with given geometry.</td>
+                             </tr>
+
+
+                              <tr>
+                                <td>t_add_tail</td>
+                                <td>Both</td>
+                                <td>TG_PAIR,Trajectory</td>
+                                <td>Trajectory</td>
+                                <td>Return new trajectory with given geometry.</td>
+                             </tr>
+
+
+                              <tr>
+                                <td>t_drop_head</td>
+                                <td>Both</td>
+                                <td>Trajectory</td>
+                                <td>Trajectory</td>
+                                <td>Return new trajectory without first element of tg_pair array.</td>
+                             </tr>
+
+
+                              <tr>
+                                <td>t_drop_tail</td>
+                                <td>Both</td>
+                                <td>Trajectory</td>
+                                <td>Trajectory</td>
+                                <td>Return new trajectory without last element of tg_pair array.</td>
+                             </tr>
+
+
+                              <tr>
+                                <td>t_update_geom_at</td>
+                                <td>Both</td>
+                                <td>Timestamp, Geometry, Trajectory</td>
+                                <td>Trajectory</td>
+                                <td>Return new trajectory with given geometry.</td>
+                             </tr>
+                             
+                          </tbody>
+                          
+                       </table>
+                    </div>  
+            </div>
+        </div>
+        
+        </div>
+
+        <hr>
+
+        <!-- Footer -->
+        <footer>
+            <div class="row">
+                <div class="col-lg-12">
+                    <p>Copyright &copy; DMLAB GSU 2016</p>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <!-- /.container -->
+
+    <!-- jQuery -->
+    <script src="js/jquery.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/main.js"></script>
+
+</body>
+
+</html>
