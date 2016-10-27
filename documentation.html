@@ -105,7 +105,7 @@
                             Lets try a query:
                             <pre>SELECT COUNT(*) FROM taxi_ride WHERE <br>from = 'Decatur' AND to = 'Lenox' AND traj.start_time > CURRENT_TIMESTAMP - <br>INTERVAL '1 day' AND traj.end_time < CURRENT_TIMESTAMP;
                             </pre>
-                            See the paper for more query example
+                            See <a href="documents/PG-Trajectory.pdf"> the paper</a> for more query examples.
                         </li>
 
                     </ul>
@@ -116,7 +116,11 @@
                     <h4><a href="#">Installation</a>
                 </div>
                     <p>
-                    Pg-Trajectory have two requirements, PostgreSQL and PostGIS. Before continue make sure you have installed these requirements.Installation of the extension is as easy as executing bunch of SQL files. Simple script that contains list of SQL files needs to be executed in database for the extension is provided in <i>install.sql</i>. From you psql terminal, you can execute this script or If you have any problem, you can manually execute these SQL's for the installation.
+                    Pg-Trajectory have two requirements, PostgreSQL and PostGIS. Before continue make sure you have installed these requirements. We provide two ways to install the extension. One is standard extension installment process in PostgreSQL. In order to do this, you simply need to execute the provided make file which will copy necassary scripts into your Postgres script library. Than, you can execut the queries mentioned in above.
+                    <br>
+                    OR
+                    <br>
+                    Installation of the extension is as easy as executing bunch of SQL files. Simple script that contains list of SQL files needs to be executed in database for the extension is provided in <i>install.sql</i>. From you psql terminal, you can execute this script or If you have any problem, you can manually execute these SQL's for the installation.
                     </p>
             </div>
 
